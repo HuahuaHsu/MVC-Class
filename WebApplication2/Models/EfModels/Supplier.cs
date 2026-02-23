@@ -5,15 +5,15 @@ using System.Collections.Generic;
 
 namespace WebApplication2.Models.EfModels;
 
-public partial class Category
+public partial class Supplier
 {
     public int Id { get; set; }
 
-    public string CategoryName { get; set; }
+    public string CompanyName { get; set; }
 
-    public int DisplayOrder { get; set; }
+    public string TaxId { get; set; }
 
-    public bool IsDeleted { get; set; }
+    public string Fax { get; set; }
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

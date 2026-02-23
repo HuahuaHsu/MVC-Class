@@ -15,15 +15,55 @@ public partial class ISpanDemoContext : DbContext
 
     public virtual DbSet<Category> Categories { get; set; }
 
+    public virtual DbSet<Product> Products { get; set; }
+
+    public virtual DbSet<Supplier> Suppliers { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Categori__3214EC07A98D6F07");
+            entity.HasKey(e => e.Id).HasName("PK__Categori__3214EC07CD9397D8");
 
             entity.Property(e => e.CategoryName)
                 .IsRequired()
                 .HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<Product>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Products__3214EC077B7F4B6B");
+
+            entity.Property(e => e.OrigPrice).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.ProductName)
+                .IsRequired()
+                .HasMaxLength(100);
+            entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.Products)
+                .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Products_Categories");
+
+            entity.HasOne(d => d.Supplier).WithMany(p => p.Products)
+                .HasForeignKey(d => d.SupplierId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Products_Suppliers");
+        });
+
+        modelBuilder.Entity<Supplier>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Supplier__3214EC07637B03F6");
+
+            entity.HasIndex(e => e.TaxId, "UX_Suppliers_TaxId").IsUnique();
+
+            entity.Property(e => e.CompanyName)
+                .IsRequired()
+                .HasMaxLength(100);
+            entity.Property(e => e.Fax).HasMaxLength(30);
+            entity.Property(e => e.TaxId)
+                .IsRequired()
+                .HasMaxLength(20);
         });
 
         OnModelCreatingPartial(modelBuilder);

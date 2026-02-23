@@ -11,7 +11,7 @@
    "OutputPath": "Models\\EfModels",
    "PluralRules": null,
    "PreserveCasingWithRegex": true,
-   "ProjectRootNamespace": "WebApplication2",
+   "ProjectRootNamespace": "WebApplication3",
    "Schemas": null,
    "SelectedHandlebarsLanguage": 2,
    "SelectedToBeGenerated": 0,
@@ -19,15 +19,7 @@
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "[dbo].[Categories]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[Products]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Suppliers]",
          "ObjectType": 0
       }
    ],

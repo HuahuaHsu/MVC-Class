@@ -1,0 +1,58 @@
+﻿@model IEnumerable<WebApplication2.Models.EfModels.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>產品</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-sm btn-primary">新增</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SupplierId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrigPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrigPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-danger">編輯</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-dark">刪除</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
