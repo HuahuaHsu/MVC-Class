@@ -19,14 +19,11 @@ public partial class dbFirstAppContext : DbContext
     {
         modelBuilder.Entity<Faq>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("FAQs");
+            entity.ToTable("FAQs");
 
             entity.Property(e => e.Answer)
                 .IsRequired()
                 .HasMaxLength(50);
-            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Question)
                 .IsRequired()
                 .HasMaxLength(50);
