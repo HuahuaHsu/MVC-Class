@@ -5,34 +5,26 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WebApplication2.Models.EfModels;
+using WebApplication4.Models.EfModels;
 
-namespace WebApplication2.Controllers
+namespace WebApplication4.Controllers
 {
-    public class ProductsController : Controller
+    public class SupplierContactsController : Controller
     {
         private readonly ISpanDemoContext _context;
 
-        public ProductsController(ISpanDemoContext context)
+        public SupplierContactsController(ISpanDemoContext context)
         {
             _context = context;
         }
 
-        // GET: Products
-        public async Task<IActionResult> Index(int? categoryId)
+        // GET: SupplierContacts
+        public async Task<IActionResult> Index()
         {
-            ViewBag.CategoryId = new SelectList(_context.Categories, "Id", "CategoryName",categoryId);
-			var productsQueryt = _context.Products.Include(p => p.Category).AsQueryable();
-            
-            if (categoryId.HasValue)
-            {
-                productsQueryt = productsQueryt.Where(p => p.CategoryId == categoryId.Value);
-			}
-
-			return View(await productsQueryt.ToListAsync());
+            return View(await _context.SupplierContacts.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        // GET: SupplierContacts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -40,42 +32,39 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include(p => p.Category)
+            var supplierContact = await _context.SupplierContacts
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            if (supplierContact == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(supplierContact);
         }
 
-        // GET: Products/Create
+        // GET: SupplierContacts/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName");
             return View();
         }
 
-        // POST: Products/Create
+        // POST: SupplierContacts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CategoryId,SupplierId,ProductName,OrigPrice,UnitPrice")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,SupplierId,ContactName,Email,Tel,IsPrimary")] SupplierContact supplierContact)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
+                _context.Add(supplierContact);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName", product.CategoryId);
-            return View(product);
+            return View(supplierContact);
         }
 
-        // GET: Products/Edit/5
+        // GET: SupplierContacts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,23 +72,22 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            var supplierContact = await _context.SupplierContacts.FindAsync(id);
+            if (supplierContact == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName", product.CategoryId);
-            return View(product);
+            return View(supplierContact);
         }
 
-        // POST: Products/Edit/5
+        // POST: SupplierContacts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CategoryId,SupplierId,ProductName,OrigPrice,UnitPrice")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,SupplierId,ContactName,Email,Tel,IsPrimary")] SupplierContact supplierContact)
         {
-            if (id != product.Id)
+            if (id != supplierContact.Id)
             {
                 return NotFound();
             }
@@ -108,12 +96,12 @@ namespace WebApplication2.Controllers
             {
                 try
                 {
-                    _context.Update(product);
+                    _context.Update(supplierContact);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
+                    if (!SupplierContactExists(supplierContact.Id))
                     {
                         return NotFound();
                     }
@@ -124,11 +112,10 @@ namespace WebApplication2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName", product.CategoryId);
-            return View(product);
+            return View(supplierContact);
         }
 
-        // GET: Products/Delete/5
+        // GET: SupplierContacts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,35 +123,34 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include(p => p.Category)
+            var supplierContact = await _context.SupplierContacts
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            if (supplierContact == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(supplierContact);
         }
 
-        // POST: Products/Delete/5
+        // POST: SupplierContacts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product != null)
+            var supplierContact = await _context.SupplierContacts.FindAsync(id);
+            if (supplierContact != null)
             {
-                _context.Products.Remove(product);
+                _context.SupplierContacts.Remove(supplierContact);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductExists(int id)
+        private bool SupplierContactExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _context.SupplierContacts.Any(e => e.Id == id);
         }
     }
 }

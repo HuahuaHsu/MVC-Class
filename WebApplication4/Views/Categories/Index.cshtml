@@ -1,10 +1,10 @@
-﻿@model IEnumerable<WebApplication2.Models.EfModels.Supplier>
+﻿@model IEnumerable<WebApplication4.Models.EfModels.Category>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>供應商</h1>
+<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,13 +13,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CompanyName)
+                @Html.DisplayNameFor(model => model.CategoryName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TaxId)
+                @Html.DisplayNameFor(model => model.DisplayOrder)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Fax)
+                @Html.DisplayNameFor(model => model.IsDeleted)
             </th>
             <th></th>
         </tr>
@@ -28,13 +28,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.CompanyName)
+                @Html.DisplayFor(modelItem => item.CategoryName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TaxId)
+                @Html.DisplayFor(modelItem => item.DisplayOrder)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Fax)
+                @Html.DisplayFor(modelItem => item.IsDeleted)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

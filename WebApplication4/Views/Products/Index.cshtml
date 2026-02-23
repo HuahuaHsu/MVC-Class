@@ -1,30 +1,14 @@
-﻿@model IEnumerable<WebApplication2.Models.EfModels.Product>
+﻿@model IEnumerable<WebApplication4.Models.EfModels.Product>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>產品列表</h1>
+<h1>Index</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-sm btn-primary">新增商品</a>
+    <a asp-action="Create">Create New</a>
 </p>
-
-<form asp-action="Index" method="get">
-    <div class="row mb-3 align-items-center">
-        <div class="col-auto">
-            <label class="col-form-label fw-bold">依分類篩選:</label>
-        </div>
-        <div class="col-auto">
-            <select name="categoryId" class="form-select" asp-items="ViewBag.CategoryId" onchange="this.form.submit()">
-                <option value="">-- 所有分類 --</option>
-            </select>
-        </div>
-        <div class="col-auto">
-            <a asp-action="Index" class="btn btn-outline-secondary">清除篩選</a>
-        </div>
-    </div>
-</form>
 <table class="table">
     <thead>
         <tr>
@@ -65,8 +49,9 @@
                 @Html.DisplayFor(modelItem => item.Category.CategoryName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-danger">編輯</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-dark">刪除</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
