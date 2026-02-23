@@ -53,7 +53,7 @@ namespace WebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Question,Answer,IsActive,DisplayOrder")] DboFaq dboFaq)
+        public async Task<IActionResult> Create(DboFaq dboFaq)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace WebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Question,Answer,IsActive,DisplayOrder")] DboFaq dboFaq)
+        public async Task<IActionResult> Edit(int id,DboFaq dboFaq)
         {
             if (id != dboFaq.Id)
             {
