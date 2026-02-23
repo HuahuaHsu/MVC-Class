@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>新增常見問答</h1>
 
 <h4>Faq</h4>
 <hr />
@@ -12,36 +12,34 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Question" class="control-label"></label>
                 <input asp-for="Question" class="form-control" />
                 <span asp-validation-for="Question" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Answer" class="control-label"></label>
                 <input asp-for="Answer" class="form-control" />
                 <span asp-validation-for="Answer" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
+            <div class="form-group form-check mb-3">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
                 </label>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="DisplayOrder" class="control-label"></label>
                 <input asp-for="DisplayOrder" class="form-control" />
                 <span asp-validation-for="DisplayOrder" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -22,7 +22,10 @@ namespace WebApplication1.Controllers
         // GET: Faqs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Faqs.ToListAsync());
+            var data = await _context.Faqs.ToListAsync();
+            return View(data);
+
+            //return View(await _context.Faqs.ToListAsync());
         }
 
         // GET: Faqs/Details/5
