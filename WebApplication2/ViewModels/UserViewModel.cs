@@ -16,6 +16,9 @@ namespace WebApplication2.ViewModels
 
 	public class UserCreateViewModel
 	{
+
+		[Display(Name = "使用者帳號")]
+		[Required]
 		public string UserName { get; set; }
 	}
 

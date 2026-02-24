@@ -22,5 +22,28 @@ namespace WebApplication2.Controllers
 
 			return View(users);
 		}
+
+		public IActionResult Create()
+		{
+			return View();
+		}
+		
+		[HttpPost]
+		public IActionResult Create(UserCreateViewModel vm)
+		{
+			if (ModelState.IsValid)
+			{
+				var user = new User
+				{
+					UserName = vm.UserName
+				};
+				_context.Users.Add(user);
+				_context.SaveChanges();
+
+				return RedirectToAction(nameof(Index));
+			}
+
+			return View(vm);
+		}
 	}
 }
