@@ -18,7 +18,7 @@ namespace WebApplication2.ViewModels
 	{
 
 		[Display(Name = "使用者帳號")]
-		[Required]
+		[Required(ErrorMessage = "{0}為必填欄位")]
 		public string UserName { get; set; }
 	}
 
