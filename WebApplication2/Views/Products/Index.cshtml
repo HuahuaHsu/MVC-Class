@@ -7,13 +7,12 @@
 <h1>產品列表</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-sm btn-primary">新增商品</a>
+    <a asp-action="Create" class="btn btn-sm btn-primary">新增</a>
 </p>
-
 <form asp-action="Index" method="get">
     <div class="row mb-3 align-items-center">
         <div class="col-auto">
-            <label class="col-form-label fw-bold">依分類篩選:</label>
+            <label class="col-form-label fw-bold">依分類篩選：</label>
         </div>
         <div class="col-auto">
             <select name="categoryId" class="form-select" asp-items="ViewBag.CategoryId" onchange="this.form.submit()">
@@ -29,9 +28,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.SupplierId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.ProductName)
             </th>
             <th>
@@ -43,15 +39,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.Category)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Supplier)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SupplierId)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProductName)
             </td>
@@ -65,8 +61,11 @@
                 @Html.DisplayFor(modelItem => item.Category.CategoryName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-danger">編輯</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-dark">刪除</a>
+                @Html.DisplayFor(modelItem => item.Supplier.CompanyName)
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-danger">編輯</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-dark">刪除</a>
             </td>
         </tr>
 }

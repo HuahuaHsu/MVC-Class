@@ -5,23 +5,19 @@ using System.Collections.Generic;
 
 namespace WebApplication2.Models.EfModels;
 
-public partial class Product
+public partial class Order
 {
     public int Id { get; set; }
 
-    public int CategoryId { get; set; }
+    public int MemberId { get; set; }
 
-    public int SupplierId { get; set; }
+    public DateTime OrderTime { get; set; }
 
-    public string ProductName { get; set; }
+    public string Status { get; set; }
 
-    public decimal OrigPrice { get; set; }
+    public decimal Total { get; set; }
 
-    public decimal UnitPrice { get; set; }
-
-    public virtual Category Category { get; set; }
+    public virtual Member Member { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
-
-    public virtual Supplier Supplier { get; set; }
 }

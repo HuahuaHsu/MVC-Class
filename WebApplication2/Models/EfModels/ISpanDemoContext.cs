@@ -15,24 +15,105 @@ public partial class ISpanDemoContext : DbContext
 
     public virtual DbSet<Category> Categories { get; set; }
 
+    public virtual DbSet<Group> Groups { get; set; }
+
+    public virtual DbSet<Member> Members { get; set; }
+
+    public virtual DbSet<Order> Orders { get; set; }
+
+    public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+
     public virtual DbSet<Product> Products { get; set; }
 
     public virtual DbSet<Supplier> Suppliers { get; set; }
+
+    public virtual DbSet<SupplierContact> SupplierContacts { get; set; }
+
+    public virtual DbSet<SupplierContactMethod> SupplierContactMethods { get; set; }
+
+    public virtual DbSet<User> Users { get; set; }
+
+    public virtual DbSet<UserGroup> UserGroups { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Categori__3214EC07CD9397D8");
+            entity.HasKey(e => e.Id).HasName("PK__Categori__3214EC07A98D6F07");
 
             entity.Property(e => e.CategoryName)
                 .IsRequired()
                 .HasMaxLength(50);
         });
 
+        modelBuilder.Entity<Group>(entity =>
+        {
+            entity.HasIndex(e => e.GroupName, "IX_Groups").IsUnique();
+
+            entity.Property(e => e.GroupName)
+                .IsRequired()
+                .HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<Member>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Members__3214EC07F30FF459");
+
+            entity.HasIndex(e => e.Account, "UX_Members_Account").IsUnique();
+
+            entity.Property(e => e.Account)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.Email).HasMaxLength(100);
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.MemberName)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.Password)
+                .IsRequired()
+                .HasMaxLength(200);
+        });
+
+        modelBuilder.Entity<Order>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Orders__3214EC07C6D409B5");
+
+            entity.Property(e => e.Status)
+                .IsRequired()
+                .HasMaxLength(20);
+            entity.Property(e => e.Total).HasColumnType("decimal(12, 2)");
+
+            entity.HasOne(d => d.Member).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.MemberId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Orders_Members");
+        });
+
+        modelBuilder.Entity<OrderDetail>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__OrderDet__3214EC07921A7A95");
+
+            entity.Property(e => e.ProductName)
+                .IsRequired()
+                .HasMaxLength(100);
+            entity.Property(e => e.SubTotal).HasColumnType("decimal(12, 2)");
+            entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
+                .HasForeignKey(d => d.OrderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_OrderDetails_Orders");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_OrderDetails_Products");
+        });
+
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Products__3214EC077B7F4B6B");
+            entity.HasKey(e => e.Id).HasName("PK__Products__3214EC074F638069");
 
             entity.Property(e => e.OrigPrice).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.ProductName)
@@ -53,7 +134,7 @@ public partial class ISpanDemoContext : DbContext
 
         modelBuilder.Entity<Supplier>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Supplier__3214EC07637B03F6");
+            entity.HasKey(e => e.Id).HasName("PK__Supplier__3214EC07CE05D878");
 
             entity.HasIndex(e => e.TaxId, "UX_Suppliers_TaxId").IsUnique();
 
@@ -64,6 +145,57 @@ public partial class ISpanDemoContext : DbContext
             entity.Property(e => e.TaxId)
                 .IsRequired()
                 .HasMaxLength(20);
+        });
+
+        modelBuilder.Entity<SupplierContact>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Supplier__3214EC07113FB983");
+
+            entity.HasIndex(e => e.SupplierId, "UX_SupplierContacts_Primary")
+                .IsUnique()
+                .HasFilter("([IsPrimary]=(1))");
+
+            entity.Property(e => e.ContactName)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.Email).HasMaxLength(100);
+            entity.Property(e => e.Tel).HasMaxLength(30);
+
+            entity.HasOne(d => d.Supplier).WithOne(p => p.SupplierContact)
+                .HasForeignKey<SupplierContact>(d => d.SupplierId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SupplierContacts_Suppliers");
+        });
+
+        modelBuilder.Entity<SupplierContactMethod>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Supplier__3214EC07B354656B");
+
+            entity.Property(e => e.MethodType)
+                .IsRequired()
+                .HasMaxLength(20);
+            entity.Property(e => e.MethodValue)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.HasOne(d => d.SupplierContact).WithMany(p => p.SupplierContactMethods)
+                .HasForeignKey(d => d.SupplierContactId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SupplierContactMethods_SupplierContacts");
+        });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasIndex(e => e.UserName, "IX_Users").IsUnique();
+
+            entity.Property(e => e.UserName)
+                .IsRequired()
+                .HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<UserGroup>(entity =>
+        {
+            entity.HasIndex(e => new { e.GroupId, e.UserId }, "IX_UserGroups").IsUnique();
         });
 
         OnModelCreatingPartial(modelBuilder);

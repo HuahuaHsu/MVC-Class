@@ -21,6 +21,11 @@
                 <input asp-for="Answer" class="form-control" />
                 <span asp-validation-for="Answer" class="text-danger"></span>
             </div>
+            <div class="mb-3 form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
             <div class="mb-3">
                 <label asp-for="DisplayOrder" class="control-label"></label>
                 <input asp-for="DisplayOrder" class="form-control" />

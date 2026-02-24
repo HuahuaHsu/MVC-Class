@@ -23,11 +23,43 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Groups]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Members]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[OrderDetails]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Orders]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Products]",
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[SupplierContactMethods]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SupplierContacts]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Suppliers]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[UserGroups]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Users]",
          "ObjectType": 0
       }
    ],

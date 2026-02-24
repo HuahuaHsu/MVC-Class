@@ -5,17 +5,15 @@ using System.Collections.Generic;
 
 namespace WebApplication2.Models.EfModels;
 
-public partial class Supplier
+public partial class SupplierContactMethod
 {
     public int Id { get; set; }
 
-    public string CompanyName { get; set; }
+    public int SupplierContactId { get; set; }
 
-    public string TaxId { get; set; }
+    public string MethodType { get; set; }
 
-    public string Fax { get; set; }
-
-    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+    public string MethodValue { get; set; }
 
     public virtual SupplierContact SupplierContact { get; set; }
 }

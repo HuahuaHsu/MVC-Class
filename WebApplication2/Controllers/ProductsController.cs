@@ -21,16 +21,21 @@ namespace WebApplication2.Controllers
         // GET: Products
         public async Task<IActionResult> Index(int? categoryId)
         {
-            ViewBag.CategoryId = new SelectList(_context.Categories, "Id", "CategoryName",categoryId);
-			var productsQueryt = _context.Products.Include(p => p.Category).AsQueryable();
-            
-            if (categoryId.HasValue)
-            {
-                productsQueryt = productsQueryt.Where(p => p.CategoryId == categoryId.Value);
+			// 1. 準備下拉選單資料 (這是關鍵！)
+			// 把所有的 Category 撈出來，並設定目前選中的項目 (categoryId)
+			ViewBag.CategoryId = new SelectList(_context.Categories, "Id", "CategoryName",categoryId);
+
+			// 2. 準備產品查詢
+			var products = _context.Products.Include(p => p.Category).Include(p => p.Supplier).AsQueryable();
+
+			// 3. 如果有選分類，就過濾資料
+			if (categoryId.HasValue)
+			{
+				products = products.Where(p => p.CategoryId == categoryId.Value);
 			}
 
-			return View(await productsQueryt.ToListAsync());
-        }
+			return View(await products.ToListAsync());
+		}
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -42,6 +47,7 @@ namespace WebApplication2.Controllers
 
             var product = await _context.Products
                 .Include(p => p.Category)
+                .Include(p => p.Supplier)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
@@ -55,6 +61,7 @@ namespace WebApplication2.Controllers
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName");
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "CompanyName");
             return View();
         }
 
@@ -72,6 +79,7 @@ namespace WebApplication2.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName", product.CategoryId);
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "CompanyName", product.SupplierId);
             return View(product);
         }
 
@@ -89,6 +97,7 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName", product.CategoryId);
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "CompanyName", product.SupplierId);
             return View(product);
         }
 
@@ -125,6 +134,7 @@ namespace WebApplication2.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName", product.CategoryId);
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "CompanyName", product.SupplierId);
             return View(product);
         }
 
@@ -138,6 +148,7 @@ namespace WebApplication2.Controllers
 
             var product = await _context.Products
                 .Include(p => p.Category)
+                .Include(p => p.Supplier)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
