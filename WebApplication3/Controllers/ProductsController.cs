@@ -22,7 +22,9 @@ namespace WebApplication3.Controllers
         public async Task<IActionResult> Index()
         {
             var iSpanDemoContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
-            return View(await iSpanDemoContext.ToListAsync());
+            var dt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            ViewData["Time"] = dt;
+			return View(await iSpanDemoContext.ToListAsync());
         }
 
         // GET: Products/Details/5
@@ -64,6 +66,9 @@ namespace WebApplication3.Controllers
             {
                 _context.Add(product);
                 await _context.SaveChangesAsync();
+
+                TempData["msg"] = "已新增資料";
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName", product.CategoryId);
@@ -107,7 +112,8 @@ namespace WebApplication3.Controllers
                 {
                     _context.Update(product);
                     await _context.SaveChangesAsync();
-                }
+					TempData["msg"] = "資料已更新";
+				}
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ProductExists(product.Id))
@@ -158,7 +164,8 @@ namespace WebApplication3.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+			TempData["msg"] = "資料已刪除";
+			return RedirectToAction(nameof(Index));
         }
 
         private bool ProductExists(int id)

@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<WebApplication3.Models.EfModels.Category>
 
 @{
+    Layout = "~/Views/Shared/_Layout2.cshtml"; //少部分套用不同版型
     ViewData["Title"] = "Index";
 }
 
@@ -37,9 +38,9 @@
                 @Html.DisplayFor(modelItem => item.IsDeleted)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id"class="btn btn-outline-success">編輯</a> |
+                @* <a asp-action="Details" asp-route-id="@item.Id">細節</a> | *@
+                <a asp-action="Delete" asp-route-id="@item.Id"class="btn btn-outline-danger">刪除</a>
             </td>
         </tr>
 }
