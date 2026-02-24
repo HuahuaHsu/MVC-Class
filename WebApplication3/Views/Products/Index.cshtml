@@ -3,9 +3,13 @@
 @{
     ViewData["Title"] = "Index";
 }
+@{
+    ViewData["Title"] = "Index";
+}
 
 <h1>所有商品</h1>
-
+@TempData["msg"]
+@* 現在時間：@ViewData["Time"] *@
 <p>
     <a asp-action="Create" class="btn btn-info">新增項目</a>
 </p>
