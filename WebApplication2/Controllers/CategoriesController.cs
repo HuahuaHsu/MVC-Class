@@ -21,7 +21,11 @@ namespace WebApplication2.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.ToListAsync());
+            var dt = DateTime.Now.AddDays(3).ToString("yyyy-MM-dd");
+            ViewData["Date"] = dt; // 2026/02/24
+
+
+			return View(await _context.Categories.ToListAsync());
         }
 
         // GET: Categories/Details/5
@@ -59,7 +63,11 @@ namespace WebApplication2.Controllers
             {
                 _context.Add(category);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                TempData["Message"] = "新增分類成功!";
+
+
+				return RedirectToAction(nameof(Index));
             }
             return View(category);
         }
@@ -110,7 +118,8 @@ namespace WebApplication2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+				TempData["Message"] = "編輯分類成功!";
+				return RedirectToAction(nameof(Index));
             }
             return View(category);
         }
@@ -145,6 +154,7 @@ namespace WebApplication2.Controllers
             }
 
             await _context.SaveChangesAsync();
+            TempData["Message"] = "刪除分類成功!";
             return RedirectToAction(nameof(Index));
         }
 

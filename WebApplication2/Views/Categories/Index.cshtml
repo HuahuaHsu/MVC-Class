@@ -5,7 +5,11 @@
 }
 
 <h1>分類清單</h1>
-
+預計還書日期: @ViewData["Date"]
+<div class="text-success">
+    @TempData["Message"]
+</div>
+<br />
 <p>
     <a asp-action="Create">新增分類</a>
 </p>
