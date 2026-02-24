@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApplication2.Models;
 using WebApplication2.ViewModels;
 
@@ -45,5 +46,51 @@ namespace WebApplication2.Controllers
 
 			return View(vm);
 		}
+
+
+		public async Task<IActionResult> Edit(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+
+			var user = _context.Users.Find(id);
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			var vm = new UserUpdateViewModel
+			{
+				Id = user.Id,
+				UserName = user.UserName
+			};
+			return View(vm);
+		}
+
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(int id, UserUpdateViewModel vm)
+		{
+			if (id != vm.Id)
+			{
+				return NotFound();
+			}
+
+			if (ModelState.IsValid)
+			{
+				var user = new User { Id = vm.Id, UserName = vm.UserName };
+
+				_context.Users.Update(user);
+				_context.SaveChanges();
+
+				return RedirectToAction(nameof(Index));
+			}
+			return View(vm);
+		}
+
+
 	}
 }

@@ -25,6 +25,8 @@ namespace WebApplication2.ViewModels
 	public class UserUpdateViewModel
 	{
 		public int Id { get; set; }
+		[Display(Name = "使用者帳號")]
+		[Required(ErrorMessage = "{0}為必填欄位")]
 		public string UserName { get; set; }
 	}
 
