@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using WebApplication2.ViewModels;
 
 namespace WebApplication2.Models.EfModels;
 
@@ -202,4 +203,8 @@ public partial class ISpanDemoContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+public DbSet<WebApplication2.ViewModels.UserItemViewModel> UserItemViewModel { get; set; } = default!;
+
+public DbSet<WebApplication2.ViewModels.UserUpdateViewModel> UserUpdateViewModel { get; set; } = default!;
 }

@@ -21,6 +21,9 @@ namespace WebApplication2.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
+            var dt = DateTime.Now.ToString("yyyy/MM/dd");
+            ViewData["now"] = dt;
+
             return View(await _context.Categories.ToListAsync());
         }
 
@@ -59,6 +62,8 @@ namespace WebApplication2.Controllers
             {
                 _context.Add(category);
                 await _context.SaveChangesAsync();
+
+                TempData["msg"] = "紀錄已新增";
                 return RedirectToAction(nameof(Index));
             }
             return View(category);
@@ -98,7 +103,8 @@ namespace WebApplication2.Controllers
                 {
                     _context.Update(category);
                     await _context.SaveChangesAsync();
-                }
+					TempData["msg"] = "紀錄已更新";
+				}
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!CategoryExists(category.Id))
@@ -145,7 +151,9 @@ namespace WebApplication2.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+			TempData["msg"] = "紀錄已刪除";
+			return RedirectToAction(nameof(Index));
         }
 
         private bool CategoryExists(int id)

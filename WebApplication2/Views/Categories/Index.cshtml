@@ -5,9 +5,11 @@
 }
 
 <h1>分類頁面</h1>
-
+現在時間:@ViewData["now"]
+<br />
+@TempData["msg"]
 <p>
-    <a asp-action="Create">新增</a>
+    <a asp-action="Create" class="btn btn-sm btn-primary">新增</a>
 </p>
 <table class="table">
     <thead>
@@ -37,8 +39,8 @@
                 @Html.DisplayFor(modelItem => item.IsDeleted)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">編輯</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">刪除</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-danger">編輯</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-dark">刪除</a>
             </td>
         </tr>
 }

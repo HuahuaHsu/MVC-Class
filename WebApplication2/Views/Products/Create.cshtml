@@ -1,6 +1,7 @@
 ﻿@model WebApplication2.Models.EfModels.Product
 
 @{
+    //Layout = "~/Views/Shared/_Layout2.cshtml";//單一個頁面切換版型
     ViewData["Title"] = "Create";
 }
 
@@ -48,6 +49,9 @@
     </div>
 </div>
 
+@section ads{
+    <div>我是廣告</div>
+}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
