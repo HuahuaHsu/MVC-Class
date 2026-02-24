@@ -13,7 +13,7 @@ namespace WebApplication2.Controllers
 		{
 			_context = context;
 		}
-		public IActionResult Index()
+		public IActionResult Index()//顯示使用者列表
 		{
 			var users = _context.Users
 				.Select(u => new UserItemViewModel
