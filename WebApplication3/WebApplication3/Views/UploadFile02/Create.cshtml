@@ -1,0 +1,58 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<h1>Upload File 01</h1>
+<h4>使用 Web API</h4>
+
+
+@* <form method="post" enctype="multipart/form-data">
+    大頭照: <input type="file" name="f" id="fileInput" />
+    <input type="submit" value="送出" />
+</form> *@
+
+大頭照: <input type="file" id="fileInput" />
+<input type="button" onclick="uploadFile()" value="上傳" />
+
+<div id="result"></div>
+
+@section Scripts{
+    <script>
+        async function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const resultDiv = document.getElementById('result');
+
+            if (fileInput.files.length === 0) {
+                resultDiv.innerText = '請選擇檔案。';
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append("f", file);
+
+            try {
+                const response = await fetch('/api/uploadFile02Api/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `
+                        <p>上傳成功</p>
+                        <p>檔案名稱：${data.fileName}</p>
+                        <p>檔案大小：${data.length} bytes</p>
+                        <p><a href="${data.filePath}" target="_blank">點我下載</a></p>
+                    `;
+                } else {
+                    const errorText = await response.text();
+                    resultDiv.innerHTML = `<p style="color:red;">上傳失敗：${errorText}</p>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color:red;">發生錯誤：${error.message}</p>`;
+            }
+        }
+    </script>
+}
