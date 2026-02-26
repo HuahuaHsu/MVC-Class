@@ -12,7 +12,7 @@
 			static string HashPassword(string password)
 			static bool VerifyPassword(string password, string hashedPassword)
 
-	[working on] ViewModel, Dto, RegisterViewModel 轉 RegisterDto 的擴充方法
+	[V] ViewModel, Dto, RegisterViewModel 轉 RegisterDto 的擴充方法
 		RegisterViewModel class
 			Account, Password, ConfirmPassword, Name, Email, Mobile properties
 
@@ -22,7 +22,7 @@
 		RegisterViewModelExtension class
 			RegisterDto ToDto(this RegisterViewModel vm)
 
-	[] 建立Service/Repository
+	[working on] 建立Service/Repository並註冊到DI
 		IMemberRepository interface
 			void Register(RegisterDto dto)
 			bool IsExists(string account)

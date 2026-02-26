@@ -1,4 +1,6 @@
 using EStoreFrontEnd.Models.EfModels;
+using EStoreFrontEnd.Models.Repositories;
+using EStoreFrontEnd.Models.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace EStoreFrontEnd
@@ -13,6 +15,9 @@ namespace EStoreFrontEnd
             builder.Services.AddControllersWithViews();
 
 			builder.Services.AddDbContext<EStoreContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+			
+			builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+			builder.Services.AddScoped<AuthService>();
 
 			var app = builder.Build();
 
