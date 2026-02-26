@@ -22,7 +22,7 @@
 		RegisterViewModelExtension class
 			RegisterDto ToDto(this RegisterViewModel vm)
 
-	[working on] 建立Service/Repository並註冊到DI
+	[V] 建立Service/Repository並註冊到DI
 		IMemberRepository interface
 			void Register(RegisterDto dto)
 			bool IsExists(string account)
@@ -39,11 +39,13 @@
 			Result Register(RegisterDto dto)
 			// 未來會再加Login, Logout,..
 
-	[] AuthController
+	[working on] AuthController
 		Register()
 			Register.cshtml
 			RegisterConfirm.cshtml
 		Register(RegisterViewModel vm)
+
+		在Layout加入 註冊連結
 
 
 []開發線上購物

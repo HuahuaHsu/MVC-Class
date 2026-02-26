@@ -36,12 +36,12 @@ namespace EStoreFrontEnd.Models.ViewModels
 		[StringLength(10, ErrorMessage = "手機號碼長度不得超過10個字")]
 		[RegularExpression(@"^09\d{8}$", ErrorMessage = "手機號碼格式不正確(09開頭的10碼數字)")]
 		[Display(Name = "手機號碼")]
-		public string Mobile { get; set; }
+		public string? Mobile { get; set; }
 	}
 
 	public static class RegisterViewModelExtension
 	{
-		public static RegisterDto ToRegisterDto(this RegisterViewModel viewModel)
+		public static RegisterDto ToDto(this RegisterViewModel viewModel)
 		{
 			return new RegisterDto
 			{
