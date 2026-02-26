@@ -39,7 +39,7 @@ public partial class ISpanDemoContext : DbContext
     {
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Categori__3214EC07A98D6F07");
+            entity.HasKey(e => e.Id).HasName("PK__Categori__3214EC0722CDD24B");
 
             entity.Property(e => e.CategoryName)
                 .IsRequired()
@@ -48,8 +48,6 @@ public partial class ISpanDemoContext : DbContext
 
         modelBuilder.Entity<Group>(entity =>
         {
-            entity.HasIndex(e => e.GroupName, "IX_Groups").IsUnique();
-
             entity.Property(e => e.GroupName)
                 .IsRequired()
                 .HasMaxLength(50);
@@ -57,7 +55,7 @@ public partial class ISpanDemoContext : DbContext
 
         modelBuilder.Entity<Member>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Members__3214EC07F30FF459");
+            entity.HasKey(e => e.Id).HasName("PK__Members__3214EC07FE5310F9");
 
             entity.HasIndex(e => e.Account, "UX_Members_Account").IsUnique();
 
@@ -77,7 +75,7 @@ public partial class ISpanDemoContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Orders__3214EC07C6D409B5");
+            entity.HasKey(e => e.Id).HasName("PK__Orders__3214EC07639EE46A");
 
             entity.Property(e => e.Status)
                 .IsRequired()
@@ -92,7 +90,7 @@ public partial class ISpanDemoContext : DbContext
 
         modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__OrderDet__3214EC07921A7A95");
+            entity.HasKey(e => e.Id).HasName("PK__OrderDet__3214EC07D33CA609");
 
             entity.Property(e => e.ProductName)
                 .IsRequired()
@@ -113,7 +111,7 @@ public partial class ISpanDemoContext : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Products__3214EC074F638069");
+            entity.HasKey(e => e.Id).HasName("PK__Products__3214EC0794F625FA");
 
             entity.Property(e => e.OrigPrice).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.ProductName)
@@ -134,7 +132,7 @@ public partial class ISpanDemoContext : DbContext
 
         modelBuilder.Entity<Supplier>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Supplier__3214EC07CE05D878");
+            entity.HasKey(e => e.Id).HasName("PK__Supplier__3214EC077B7575E7");
 
             entity.HasIndex(e => e.TaxId, "UX_Suppliers_TaxId").IsUnique();
 
@@ -149,7 +147,7 @@ public partial class ISpanDemoContext : DbContext
 
         modelBuilder.Entity<SupplierContact>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Supplier__3214EC07113FB983");
+            entity.HasKey(e => e.Id).HasName("PK__Supplier__3214EC070A15F3DC");
 
             entity.HasIndex(e => e.SupplierId, "UX_SupplierContacts_Primary")
                 .IsUnique()
@@ -169,7 +167,7 @@ public partial class ISpanDemoContext : DbContext
 
         modelBuilder.Entity<SupplierContactMethod>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Supplier__3214EC07B354656B");
+            entity.HasKey(e => e.Id).HasName("PK__Supplier__3214EC0702DEA0D6");
 
             entity.Property(e => e.MethodType)
                 .IsRequired()
@@ -186,8 +184,6 @@ public partial class ISpanDemoContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasIndex(e => e.UserName, "IX_Users").IsUnique();
-
             entity.Property(e => e.UserName)
                 .IsRequired()
                 .HasMaxLength(50);
@@ -195,7 +191,7 @@ public partial class ISpanDemoContext : DbContext
 
         modelBuilder.Entity<UserGroup>(entity =>
         {
-            entity.HasIndex(e => new { e.GroupId, e.UserId }, "IX_UserGroups").IsUnique();
+            entity.HasKey(e => e.Id).HasName("PK_UserGroup");
         });
 
         OnModelCreatingPartial(modelBuilder);
