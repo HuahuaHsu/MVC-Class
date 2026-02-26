@@ -1,17 +1,20 @@
-﻿@model WebApplication1.Models.ViewModels.ProductIndexViewModel
+﻿@using WebApplication1.Models.ViewModels
+@model WebApplication1.Models.ViewModels.ProductIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
+	var product = Model.Data?.FirstOrDefault()?? new ProductIndexItemViewModel();
 }
 
 <h1>Index</h1>
 
 <!----篩選條件---->
 <form method="get">
-    品名:<input type="text" name="productName" /><br />
+    品名:<input type="text" name="productName" asp-for="@Model.Criteria.ProductName"/><br />
+    @* asp-for 在跳轉後仍會保留使用者輸入搜尋條件 ,value 只會顯示在輸入框跳轉後就消失 *@
     售價:
-    <input type="text" name="priceStart" /> ~
-    <input type="text" name="priceEnd" />
+    <input type="text" name="priceStart" asp-for="@Model.Criteria.PriceStart" /> ~
+    <input type="text" name="priceEnd" asp-for="@Model.Criteria.PriceEnd" />
     <br />
     <input type="submit" value="查詢" />
 </form>
@@ -20,16 +23,16 @@
     <thead>
         <tr>
             <th>
-                Id
+				@Html.DisplayNameFor(model => product.Id)
             </th>
             <th>
-                分類名稱
+				@Html.DisplayNameFor(model => product.CategoryName)
             </th>
             <th>
-                品名
+                @Html.DisplayNameFor(model => product.ProductName)
             </th>
             <th>
-                售價
+                @Html.DisplayNameFor(model => product.UnitPrice)
             </th>
             <th></th>
         </tr>
