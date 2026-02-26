@@ -47,5 +47,26 @@
 
 		在Layout加入 註冊連結
 
+	[working on] 實作新會員 Email 確認功能
+
+		url: /Auth/ActiveRegister?memberId=99&confirmcode=xxxx
+		MemberDto class
+
+		MemberRepository
+			MemberDto GetById(int memberId)
+			void Update(MemberDto dto)
+
+		AuthService
+			void ActiveRegister(int memberId, string confirmCode)
+			MemberDto Load(int memberId)
+
+
+		AuthController
+			ActiveRegister(int memberId, string confirmCode)
+
+		ActiveRegister.cshtml
+	
 
 []開發線上購物
+[]註冊新會員後，必須發信給會員，內容確認連結
+
