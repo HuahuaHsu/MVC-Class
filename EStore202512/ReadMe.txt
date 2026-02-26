@@ -39,7 +39,7 @@
 			Result Register(RegisterDto dto)
 			// 未來會再加Login, Logout,..
 
-	[working on] AuthController
+	[V] AuthController
 		Register()
 			Register.cshtml
 			RegisterConfirm.cshtml
