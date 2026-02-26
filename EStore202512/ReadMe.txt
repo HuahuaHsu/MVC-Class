@@ -6,13 +6,13 @@
 開發會員機制
 [working on]add 會員註冊功能
 	url: /Auth/Register/
-	[working on] 雜湊密碼的公用程式
+	[V] 雜湊密碼的公用程式
 		安裝 BCrypt.Net-Next 套件
 		/Models/Infra/HashUtility.cs
 			static string HashPassword(string password)
 			static bool VerifyPassword(string password, string hashedPassword)
 
-	[] ViewModel, Dto, RegisterViewModel 轉 RegisterDto 的擴充方法
+	[working on] ViewModel, Dto, RegisterViewModel 轉 RegisterDto 的擴充方法
 		RegisterViewModel class
 			Account, Password, ConfirmPassword, Name, Email, Mobile properties
 
