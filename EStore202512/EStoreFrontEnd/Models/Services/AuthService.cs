@@ -61,5 +61,23 @@ namespace EStoreFrontEnd.Models.Services
 		{
 			return _repository.GetById(memberId);
 		}
+
+		public async Task<Result> LoginAsync(LoginDto dto)
+		{
+			var member = await _repository.GetMemberByAccountAsync(dto.Account);
+			if (member == null)
+			{
+				return Result.Failure("帳號或密碼錯誤");
+			}
+			if (!HashUtility.VerifyPassword(dto.Password, member.HashedPassword))
+			{
+				return Result.Failure("帳號或密碼錯誤");
+			}
+			if (!member.IsConfirmed.GetValueOrDefault())
+			{
+				return Result.Failure("帳號尚未驗證");
+			}
+			return Result.Success();
+		}
 	}
 }

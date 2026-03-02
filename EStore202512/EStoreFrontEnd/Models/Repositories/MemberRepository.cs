@@ -1,5 +1,6 @@
 ﻿using EStoreFrontEnd.Models.DTOs;
 using EStoreFrontEnd.Models.EfModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace EStoreFrontEnd.Models.Repositories
 {
@@ -10,6 +11,8 @@ namespace EStoreFrontEnd.Models.Repositories
 
 		MemberDto GetById(int memberId);
 		void UpdateConfirmStatus(MemberConfirmDto dto);
+
+		Task<MemberDto> GetMemberByAccountAsync(string account);
 	}
 
 	public class MemberRepository : IMemberRepository
@@ -82,6 +85,26 @@ namespace EStoreFrontEnd.Models.Repositories
 			//member.ResetPasswordConfirmCode = dto.ResetPasswordConfirmCode;
 
 			_dbContext.SaveChanges();
+		}
+
+		public async Task<MemberDto> GetMemberByAccountAsync(string account)
+		{
+			var member = await _dbContext.Members
+				.FirstOrDefaultAsync(m => m.Account == account);
+			if (member == null)return null;
+
+			return new MemberDto
+			{
+				Id = member.Id,
+				Account = member.Account,
+				HashedPassword = member.HashedPassword,
+				Email = member.Email,
+				Name = member.Name,
+				Mobile = member.Mobile,
+				IsConfirmed = member.IsConfirmed,
+				NewMemberConfirmCode = member.NewMemberConfirmCode,
+				ResetPasswordConfirmCode = member.ResetPasswordConfirmCode
+			};
 		}
 	}
 }

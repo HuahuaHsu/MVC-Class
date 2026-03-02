@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EStoreFrontEnd.Models.ViewModels
 {
+
 	public class RegisterViewModel
 	{
 		[Required(ErrorMessage = "帳號為必填")]

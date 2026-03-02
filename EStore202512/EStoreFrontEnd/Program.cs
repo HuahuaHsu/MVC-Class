@@ -1,6 +1,7 @@
 using EStoreFrontEnd.Models.EfModels;
 using EStoreFrontEnd.Models.Repositories;
 using EStoreFrontEnd.Models.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 namespace EStoreFrontEnd
@@ -19,6 +20,14 @@ namespace EStoreFrontEnd
 			builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 			builder.Services.AddScoped<AuthService>();
 
+            //註冊使用cookie的驗證服務
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.Cookie.Name = "EStoreDemo"; // 設定 Cookie 名稱
+					options.LoginPath = "/Auth/Login"; // 設定登入頁面路徑
+                });
+
 			var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -34,6 +43,7 @@ namespace EStoreFrontEnd
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
