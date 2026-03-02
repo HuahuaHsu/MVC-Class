@@ -9,7 +9,7 @@ namespace EStoreFrontEnd.Models.Repositories
 		bool IsExists(string account);
 
 		MemberDto GetById(int memberId);
-		void Update(MemberDto dto);
+		void UpdateConfirmStatus(MemberConfirmDto dto);
 	}
 
 	public class MemberRepository : IMemberRepository
@@ -65,7 +65,7 @@ namespace EStoreFrontEnd.Models.Repositories
 			};
 		}
 
-		public void Update(MemberDto dto)
+		public void UpdateConfirmStatus(MemberConfirmDto dto)
 		{
 			// 這裡可以使用 EF Core 的 Find 方法來找到要更新的會員資料，然後更新其屬性，最後使用 SaveChanges 方法來保存更改
 			var member = _dbContext.Members.Find(dto.Id);
@@ -74,12 +74,12 @@ namespace EStoreFrontEnd.Models.Repositories
 				return;
 			}
 
-			member.Email = dto.Email;
-			member.Name = dto.Name;
-			member.Mobile = dto.Mobile;
+			//member.Email = dto.Email;
+			//member.Name = dto.Name;
+			//member.Mobile = dto.Mobile;
 			member.IsConfirmed = dto.IsConfirmed;
 			member.NewMemberConfirmCode = dto.NewMemberConfirmCode;
-			member.ResetPasswordConfirmCode = dto.ResetPasswordConfirmCode;
+			//member.ResetPasswordConfirmCode = dto.ResetPasswordConfirmCode;
 
 			_dbContext.SaveChanges();
 		}

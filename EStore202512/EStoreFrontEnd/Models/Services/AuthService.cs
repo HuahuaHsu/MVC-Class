@@ -42,11 +42,18 @@ namespace EStoreFrontEnd.Models.Services
 			{
 				throw new Exception("驗證碼不正確");
 			}
-			//3.如果正確，將 IsConfirmed 設為 true
-			member.IsConfirmed = true;
-			member.NewMemberConfirmCode = null;
 
-			_repository.Update(member);
+			//3.如果正確，將 IsConfirmed 設為 true
+			//將會員資料轉成 MemberConfirmDto
+			var dto = new MemberConfirmDto
+			{
+				Id = member.Id,
+				IsConfirmed = true,
+				NewMemberConfirmCode = null
+			};
+
+			//更新會員確認狀態
+			_repository.UpdateConfirmStatus(dto);
 
 		}
 

@@ -65,7 +65,10 @@
 			ActiveRegister(int memberId, string confirmCode)
 
 		ActiveRegister.cshtml
-	
+	[ ] 更名
+		MemberDto -> MemberConfirmDto, 只包含必要屬性
+		AuthService.ActiveRegister() 不必改
+		MemberRepository.Update -> UpdateConfirmStatus()
 
 []開發線上購物
 []註冊新會員後，必須發信給會員，內容確認連結

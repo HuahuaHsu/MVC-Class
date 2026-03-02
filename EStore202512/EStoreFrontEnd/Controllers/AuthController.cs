@@ -39,5 +39,20 @@ namespace EStoreFrontEnd.Controllers
 
 			return View("RegisterConfirm");
 		}
+
+		public IActionResult ActiveRegister(int memberId, string confirmCode)
+		{
+			// Call AuthService to activate the user
+			try
+			{
+				_authService.ActiveRegister(memberId, confirmCode);
+			}
+			catch (Exception ex)
+			{
+				
+			}
+			return View();
+		}
+
 	}
 }
