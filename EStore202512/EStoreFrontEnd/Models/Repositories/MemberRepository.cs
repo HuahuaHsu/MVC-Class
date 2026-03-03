@@ -61,6 +61,7 @@ namespace EStoreFrontEnd.Models.Repositories
 			{
 				Id = member.Id,
 				Account = member.Account,
+				HashedPassword = member.HashedPassword,
 				Email = member.Email,
 				Name = member.Name,
 				Mobile = member.Mobile,

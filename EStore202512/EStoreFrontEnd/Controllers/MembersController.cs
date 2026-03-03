@@ -55,15 +55,13 @@ namespace EStoreFrontEnd.Controllers
 			var result = await _service.ChangePasswordAsync(dto);
 			if (result.IsSuccess)
 			{
-				ViewBag.Message = "密碼修改成功";
-				RedirectToAction(nameof(Index));//修改成功後導回會員中心
-				return View("Index");
+				TempData["Message"] = "密碼修改成功";
+				return RedirectToAction(nameof(Index));//修改成功後導回會員中心
 			}
-			else
-			{
-				ModelState.AddModelError(string.Empty, result.ErrorMessage);
-				return View(model);//修改失敗，顯示錯誤訊息並停留在修改密碼頁面
-			}
+
+			ModelState.AddModelError(string.Empty, result.ErrorMessage);
+			return View(model);//修改失敗，顯示錯誤訊息並停留在修改密碼頁面
+
 		}
 	}
 }

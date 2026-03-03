@@ -24,7 +24,7 @@ namespace EStoreFrontEnd.Models.Services
 			//判斷原始密碼是否正確
 			var member =_Repository.GetById(dto.Id);
 			if (member == null)return Result.Failure("找不到會員");
-			if (HashUtility.VerifyPassword(dto.OrigPassword, member.HashedPassword)) return Result.Failure("原始密碼不正確");
+			if (!HashUtility.VerifyPassword(dto.OrigPassword, member.HashedPassword)) return Result.Failure("原始密碼不正確");
 
 			//將新密碼進行Hash處理
 			var hashedNewPassword = HashUtility.HashPassword(dto.NewPassword);
