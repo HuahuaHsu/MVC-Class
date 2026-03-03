@@ -19,6 +19,7 @@ namespace EStoreFrontEnd
 			
 			builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 			builder.Services.AddScoped<AuthService>();
+            builder.Services.AddScoped<MemberService>();
 
             //註冊使用cookie的驗證服務
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

@@ -100,6 +100,23 @@
 	
 	- modify AuthController, add HttpGet Logout action
 
+
+[working on]實作 修改密碼 /Members/ChangePassword
+	- add 會員中心頁, /Members/Index
+	- add ChangedPasswordDto: Id, OrigPassword, NewPassword, HashedPassword
+	- add ChangedPasswordViewModel: OrigPassword, NewPassword, ConfirmPassword
+	- modify MemberRepository
+		- add ChangePasswordAsync(int memberId, string hashedPassword)
+
+	- add MemberService
+		.ChangePasswordAsync(ChangedPasswordDto dto)
+		在 Program.cs 註冊 MemberService 到 DI
+
+	- modify MembersController
+		- add ChangePassword actions, 要加Authorize
+		- add "ChangePassword" view page, 更新成功後, 導向到 Members/Index, 將訊息顯示在 Index page上
+	-modify Members/Index.cshtml, 顯示訊息(來自 ChangePassword or EditProfile Pages)
+	
 []開發線上購物
 []註冊新會員後，必須發信給會員，內容確認連結
 

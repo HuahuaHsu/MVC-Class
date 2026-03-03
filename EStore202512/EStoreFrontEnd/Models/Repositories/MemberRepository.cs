@@ -13,6 +13,8 @@ namespace EStoreFrontEnd.Models.Repositories
 		void UpdateConfirmStatus(MemberConfirmDto dto);
 
 		Task<MemberDto> GetMemberByAccountAsync(string account);
+
+		Task ChangePasswordAsync(int memberId, string hashedPassword);
 	}
 
 	public class MemberRepository : IMemberRepository
@@ -105,6 +107,15 @@ namespace EStoreFrontEnd.Models.Repositories
 				NewMemberConfirmCode = member.NewMemberConfirmCode,
 				ResetPasswordConfirmCode = member.ResetPasswordConfirmCode
 			};
+		}
+
+		public async Task ChangePasswordAsync(int memberId, string hashedPassword)
+		{
+			var member = _dbContext.Members.Find(memberId);
+			if (member == null) return;
+
+			member.HashedPassword = hashedPassword;
+			await _dbContext.SaveChangesAsync();
 		}
 	}
 }
