@@ -1,0 +1,78 @@
+﻿@model IEnumerable<EStoreFrontEnd.Models.ViewModels.ProductIndexItemViewModel>
+
+@{
+    ViewData["Title"] = "商品清單";
+}
+
+<h1>商品清單</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @* @Html.DisplayNameFor(model => model.Id) *@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th class="text-end">
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <img src="~/Uploads/@item.ProductImage" width="50px" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td class="text-end">
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <input type="button" value="加入購物車" class="add2cart btn btn-sm btn-danger" data-id="@item.Id" />
+                }
+	        </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+
+            $(".add2cart").each(function () {
+                $(this).on("click", function () {
+                    var self = $(this);
+
+                    var productId = self.attr("data-id");
+
+                    // ajax 送出 request
+                    $.get("/Cart/AddItem?productId=" + productId,
+                        null,
+                        function (result) {
+                            alert("已加入購物車");
+                        });
+                });
+
+            });
+
+        })
+    </script>
+}

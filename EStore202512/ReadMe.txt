@@ -101,7 +101,7 @@
 	- modify AuthController, add HttpGet Logout action
 
 
-[working on]實作 修改密碼 /Members/ChangePassword
+[V]實作 修改密碼 /Members/ChangePassword
 	- add 會員中心頁, /Members/Index
 	- add ChangedPasswordDto: Id, OrigPassword, NewPassword, HashedPassword
 	- add ChangedPasswordViewModel: OrigPassword, NewPassword, ConfirmPassword
@@ -117,6 +117,39 @@
 		- add "ChangePassword" view page, 更新成功後, 導向到 Members/Index, 將訊息顯示在 Index page上
 	-modify Members/Index.cshtml, 顯示訊息(來自 ChangePassword or EditProfile Pages)
 	
-[]開發線上購物
+前台購物車功能
+[working on] 建立商品清單頁並設為網站首頁
+	- create /wwwroot/uploads/ folder, 並放入商品圖片
+	- dto
+		ProductDto: Id, Name, Price, ImageUrl
+	- view model
+		add Models/ViewModels/ProductIndexItemViewModel.cs
+		add ProductDtoExtension,撰寫擴充方法
+
+	- add ProductRepository
+		add interface IProductRepository
+			List<ProductDto> GetAll()
+		add class ProductRepository : IProductRepository
+	- add ProductService
+		ctor(IProductRepository repo)
+		IEnumerable<ProductDto> GetAllForIndex()
+
+	- add ProductsController(新增空白controller), add Index action
+
+	- add Index.cshtml, 
+		- 撰寫js,實作加入購物車功能Default
+		- 移除 AddNew hyperlink
+		- 只有在已登入狀況下,才顯示 'add to cart' button
+
+
+	- add CartController, 實作將商品加入購物車的功能
+	- modify Program.cs , 預設為 Products/Index
+		- modify _layout ,修改home的hyperlink
+	
+
+
+[]實作修改會員資料 /Members/EditProfile
+[]忘記密碼
+[]重設密碼
 []註冊新會員後，必須發信給會員，內容確認連結
 
