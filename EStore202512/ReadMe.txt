@@ -147,7 +147,7 @@
 		- modify _layout ,修改home的hyperlink
 	
 
-[working on] 實作 顯示購物車內容 /Cart/Index
+[V] 實作 顯示購物車內容 /Cart/Index
 
    -add Dto classes:
 
@@ -185,7 +185,11 @@
 
    -modify _Layout view page: 顯示購物車資訊
 
-[] 實作結帳
+[working on] 實作結帳 / Cart/Checkout
+	- add CheckoutViewModel
+	- modify CartController, 
+		add Checkout() action
+		add ConfirmCheckout() action
 
 []實作修改會員資料 /Members/EditProfile
 []忘記密碼
