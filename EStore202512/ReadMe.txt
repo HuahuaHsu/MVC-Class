@@ -118,7 +118,7 @@
 	-modify Members/Index.cshtml, 顯示訊息(來自 ChangePassword or EditProfile Pages)
 	
 前台購物車功能
-[working on] 建立商品清單頁並設為網站首頁
+[V] 建立商品清單頁並設為網站首頁
 	- create /wwwroot/uploads/ folder, 並放入商品圖片
 	- dto
 		ProductDto: Id, Name, Price, ImageUrl
@@ -147,6 +147,45 @@
 		- modify _layout ,修改home的hyperlink
 	
 
+[working on] 實作 顯示購物車內容 /Cart/Index
+
+   -add Dto classes:
+
+   CartDto: Id, List<CartItemDto> Items
+
+   CartItemDto: Id, ProductId, ProductName, UnitPrice, Quantity, Subtotal
+
+  -add ViewModel classes (顯示一筆購物車資料及其明細):
+
+   CartItemViewModel: Id, ProductId, ProductName, UnitPrice, Quantity, Subtotal
+
+   CartIndexViewModel: List<CartItemViewModel> Items, TotalAmount
+
+   -add CartDtoExtensions (撰寫擴充方法):
+
+   ToViewModel(this CartDto dto)
+
+  -add CartRepository:
+
+
+  -add CartService:
+
+
+  -modify CartController:
+
+   -modify AddItem action: 將商品加入購物車
+
+   -add Info action: 顯示購物車明細（此時數量增減尚無法運作，需等 UpdateItem action 實作）
+
+   -add Cart/Index view page: 使用 CartIndexViewModel
+
+   撰寫 JS code: 實作加減數量的功能
+
+   -add UpdateItem action
+
+   -modify _Layout view page: 顯示購物車資訊
+
+[] 實作結帳
 
 []實作修改會員資料 /Members/EditProfile
 []忘記密碼

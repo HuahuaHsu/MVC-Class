@@ -22,9 +22,11 @@ namespace EStoreFrontEnd
             builder.Services.AddScoped<MemberService>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ProductService>();
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
+            builder.Services.AddScoped<CartService>();
 
-            //註冊使用cookie的驗證服務
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+			//註冊使用cookie的驗證服務
+			builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
                     options.Cookie.Name = "EStoreDemo"; // 設定 Cookie 名稱

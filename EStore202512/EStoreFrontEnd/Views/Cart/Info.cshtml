@@ -1,0 +1,138 @@
+﻿@using EStoreFrontEnd.Models.ViewModels
+@model CartIndexViewModel
+
+@{
+    ViewData["Title"] = "購物清單";
+}
+<style>
+    .total {
+        display: flex;
+        /*justify-content: center;*/
+        align-items: center;
+        height: 1.5rem;
+    }
+
+        .total h4 {
+            /*display: inline-block;*/
+            margin-top: 0px;
+            height: 1.5rem;
+        }
+
+        .total p {
+            height: 1.5rem;
+            padding-left: 20px;
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .total .checkout {
+            padding-left: 20px;
+        }
+</style>
+
+<h1>購物清單</h1>
+
+@* <p>
+    <a asp-action="Create">Create New</a>
+</p> *@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+
+            </th>
+            <th>
+                品名
+            </th>
+            <th>
+                數量
+            </th>
+            <th>
+                小計
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    <img src="/uploads/@item.ProductImage" width="30" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subtotal)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+
+                    <button class="btn btn-sm btn-danger delQty" data-id="@item.ProductId" data-qty="@item.Quantity">減一</button>
+                    <button class="btn btn-sm btn-primary addQty" data-id="@item.ProductId" data-qty="@item.Quantity">加一</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="total">
+    <h4>Total: @Model.Total.ToString("#,#")</h4>
+
+    @if (@Model.AllowCheckout)
+    {
+        <div class="checkout">
+            <a href="/Cart/Checkout/" class="btn btn-primary">結帳</a>
+        </div>
+    }
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $(".addQty").each(function () {
+                $(this).on("click", function () {
+                    var self = $(this);
+
+                    var productId = self.attr("data-id");
+                    // var newQty = parseInt(self.attr("data-qty")) + 1;
+
+                    // ajax 送出 request
+                    $.get("/Cart/IncrementItem?productId=" + productId , // + "&newQty=" + newQty,
+                        null,
+                        function (result) {
+                            // alert("已加入購物車");
+                            location.reload();
+                        });
+                });
+
+            });
+
+            $(".delQty").each(function () {
+                $(this).on("click", function () {
+                    var self = $(this);
+
+                    var productId = self.attr("data-id");
+                    // var newQty = parseInt(self.attr("data-qty")) - 1;
+
+                    // ajax 送出 request
+                    $.get("/Cart/DecrementItem?productId=" + productId, // + "&newQty=" + newQty,
+                        null,
+                        function (result) {
+                            // alert("已加入購物車");
+                            location.reload();
+                        });
+                });
+
+            });
+        })
+    </script>
+}
