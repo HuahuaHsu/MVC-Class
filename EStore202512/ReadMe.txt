@@ -191,6 +191,36 @@
 		add Checkout() action
 		add ConfirmCheckout() action
 
+[working on] 實作 忘記密碼 / 重設密碼
+	- modify Views/Auth/Login.cshtml, 加入「忘記密碼」超連結
+	-製作忘記密碼的表單
+		- add /Models/ViewModels/ForgotPasswordVM.cs
+		- modify MembersController, add ForgotPassword action (HttpGet action)
+		- add ForgotPassword view page (用 Create 範本)
+		- add Views/Members/ForgotPasswordConfirm.cshtml, 用空白範本
+
+	- 修改 memberRepository
+		add GetByIdAsync，並同時更新被影響的程式碼
+			先將 GetMemberByIdAsync rename 成 GetByIdAsync，並更名所有叫用它的程式 (1, 2 處)
+		add GetMemberByIdAsync
+		add UpdateResetPasswordConfirmCodeAsync(MemberDto member)
+	- modify MemberService
+		add ChangePasswordAsync(string account, string originalPassword, string newPassword)
+		add ResetPasswordAsync(int memberId, string confirmCode, string newPassword)
+
+	- add Models/Infra/EmailHelper class, 撰寫寄信的功能
+		- 建立 /wwwroot/files/ folder, 用來放寄信的測試內容
+
+	
+	
+	- modify MembersController, add ForgotPassword action (HttpPost action)
+	
+	- add Models/ViewModels/ResetPasswordVM, 用來輸入新密碼
+	- modify MembersController, add ResetPassword action (httpget action)
+	- add /Views/Members/ResetPassword.cshtml (create 範本)
+	- modify MembersController, add ResetPassword action (httpPost action)
+	- add ResetPasswordConfirm.cshtml (空白範本)
+
 []實作修改會員資料 /Members/EditProfile
 []忘記密碼
 []重設密碼

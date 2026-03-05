@@ -1,4 +1,5 @@
 ﻿using EStoreFrontEnd.Models.DTOs;
+using EStoreFrontEnd.Models.EfModels;
 using EStoreFrontEnd.Models.Services;
 using EStoreFrontEnd.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -11,10 +12,12 @@ namespace EStoreFrontEnd.Controllers
 	public class MembersController : Controller
 	{
 		private readonly MemberService _service;
+		private readonly EStoreContext _context;
 
-		public MembersController(MemberService service)
+		public MembersController(MemberService service,EStoreContext context)
 		{
 			_service = service;
+			_context = context;
 		}
 
 		[Authorize]// This action requires the user to be authenticated
@@ -62,6 +65,54 @@ namespace EStoreFrontEnd.Controllers
 			ModelState.AddModelError(string.Empty, result.ErrorMessage);
 			return View(model);//修改失敗，顯示錯誤訊息並停留在修改密碼頁面
 
+		}
+
+		public IActionResult ForgetPassword()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult ForgetPassword(ForgetPasswordVM model)
+		{
+			if(!ModelState.IsValid)
+			{
+				return View(model);
+			}
+			//實作忘記密碼的功能
+			//1.根據使用者輸入的帳號和email，去資料庫確認是否有這個會員
+			var member = _context.Members
+				.Where(m => m.Account == model.Account && m.Email == model.Email)
+				.FirstOrDefault();
+
+			if (member == null)
+			{
+				ModelState.AddModelError(string.Empty, "查無此會員");
+				return View(model);
+			}
+
+			//1.5 更新 Member 的 ResetPasswordConfirmCode 欄位，並存回資料庫
+			member.ResetPasswordConfirmCode = Guid.NewGuid().ToString();
+			_context.SaveChanges();
+
+			//2.計算出完整url
+			var urlTemplate = Request.Scheme + "://" + //（http或https）
+				Request.Host.Value + "/" +  //（域名和端口號）
+				"Members/ResetPassword?memberId={0}&confirmCode={1}";
+
+			var Url = string.Format(urlTemplate, member.Id, member.ResetPasswordConfirmCode);
+
+			//3.寄送email給使用者，裡面包含重設密碼的連結
+
+			return View("ForgetPasswordConfirm");
+		}
+
+		public IActionResult ResetPassword(int memberid, string confirmCode)
+		{
+
+
+			return Content($"測試成功！收到 MemberID: {memberid}, Code: {confirmCode}");
 		}
 	}
 }
