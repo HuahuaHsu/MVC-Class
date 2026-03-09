@@ -1,0 +1,88 @@
+﻿<button id="getGreet" class="btn btn-primary">Greet(GET)</button>
+<button id="postGreet" class="btn btn-primary">Greet(POST)</button>
+<div id="result"></div>
+<img id="preview" src="~/images/preview-1.gif" style="display:none"/>
+
+@section Scripts{
+	<script>
+		var baseAddress="https://localhost:7002";//開發階段
+		// var baseAddress="https:XXX";//staging
+		// var baseAddress="https:XXX";//Production
+		// var baseAddress="https:XXX";//Cloud
+
+		//因為是中文需要使用URLSearchParams自動幫忙做編碼處理，//keyValuePair
+		//舊的做法是encodeURL=直接網址上，這邊還另外需要做編碼呼叫
+		// 使用 URLSearchParams 取代舊有的 encodeURIComponent 手動拼接。
+		// 它能自動將中文參數轉換為 URL 安全格式（如 %E5...），並自動處理 & 與 = 符號。
+
+		// Promise Pattern
+		// $('#getGreet').on("click",()=>{ 
+		// 	var p =new URLSearchParams({
+		// 		Name:"小強",keyValuePair
+		// 	})
+		// 	fetch(`${baseAddress}/Ajax/Greet?${p.toString()}`,{
+		// 		method:"GET",動詞
+		// 	}).then(reponse=>{
+		// 		if(reponse.ok){
+		// 			return reponse.text();
+		// 		}
+		// 	}).then(data=>{
+		// 		alert(data);
+		// 	}).catch(err=>{
+		// 		alert(err.message)
+		// 	});
+		// });
+
+
+		//Async/await
+				$('#getGreet').on("click", async () => {
+			var p = new URLSearchParams({
+				Name: "小強", // keyValuePair
+			});
+
+			try {
+				$("#preview").show();
+				$("#result").text("");
+				var response = await fetch(`${baseAddress}/Ajax/Greet?${p.toString()}`, {
+					method: "GET"
+				});
+				$("#preview").hide();
+				if (response.ok) {
+					var data = await response.text();
+					$('#result').text(data);
+				}
+			} catch (err) {
+				$("#preview").hide();
+				alert(err.message);
+			}
+		});
+
+		$("#postGreet").on("click",async()=>{
+			// alert("postGreet");
+			$("#preview").show();
+			var form = new FormData();
+			form.append("Name","小強");
+			try{
+				var response = await fetch(`${baseAddress}/Ajax/PostGreet`,{
+					method:"POST",
+					body:form
+					//非標準格式就需要使用
+					// header:{
+					// 	"content-type":"資料格式"
+					// }
+				});
+				$("#preview").hide();
+				if(response.ok){
+					var data = await response.text();
+					$("#result").text(data);
+				}
+			}catch(err){
+				$("#preview").hide();
+				alert(err.message);
+			}
+		});
+	</script>
+}
+
+
+
