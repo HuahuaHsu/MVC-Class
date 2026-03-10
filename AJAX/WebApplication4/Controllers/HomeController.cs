@@ -49,6 +49,14 @@ namespace WebApplication4.Controllers
 			return View();
 		}
 
+		public IActionResult Employees()
+		{
+			return View();
+		}
 
+		public IActionResult EmployeeTable()
+		{
+			return View();
+		}
 	}
 }

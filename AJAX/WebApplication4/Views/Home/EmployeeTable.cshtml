@@ -1,0 +1,58 @@
+﻿@section Styles {
+	<link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" />
+	<style></style>
+}
+<div class="container">
+	<h3 class="mb-3 text-center">員工紀錄</h3>
+	<div class="mb-3">
+		<table class="table table-striped table-hover">
+			<thead class="table-danger">
+				<tr>
+					<th>EmployeeId</th>
+					<th>LastName</th>
+					<th>FirstName</th>
+					<th>Title</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+
+
+
+@section Scripts {
+	<script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
+	<script src="//cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
+	<script>
+		var baseAddress="https://localhost:7202";//api網域
+		// var baseAddress="https:XXX";//staging
+		// var baseAddress="https:XXX";//Production
+		// var baseAddress="https:XXX";//Cloud
+
+		$(document).ready(function(){
+			// alert("ready");
+			$("table").dataTable({
+				ajax:{
+					type:"GET",
+					url:`${baseAddress}/api/Employees`,
+					dataSrc:function(data){
+						return data;
+					}
+				},
+				//物件
+				columns:[
+					{data:"employeeId",width:"25%"},
+					{data:"lastName",width:"25%"},
+					{data:"firstName",width:"25%"},
+					{data:"title",width:"25%"}
+				],
+				fixedHeader:{
+					header:true
+				},//凍結欄位標題
+				language:{
+					url:`//cdn.datatables.net/plug-ins/1.13.1/i18n/zh-HANT.json`
+				}
+			});
+		});
+	</script>
+}
