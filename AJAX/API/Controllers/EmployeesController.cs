@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
+using API.DTO;
 
 namespace API.Controllers
 {
@@ -22,13 +23,20 @@ namespace API.Controllers
 
         // GET: api/Employees
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
+        public async Task<IEnumerable<EmployeeDTO>> GetEmployees()
         {
-            return await _context.Employees.ToListAsync();
-        }
+            return _context.Employees.Select(e => new EmployeeDTO
+            {
+                EmployeeId = e.EmployeeId,
+                LastName = e.LastName,
+                FirstName = e.FirstName,
+                Title = e.Title
+            });
+			//return await _context.Employees.ToListAsync(); //轉集合轉陣列需要時間、空間，直接回傳IEnumerable就好，讓前端決定要轉成陣列還是集合
+		}
 
-        // GET: api/Employees/5
-        [HttpGet("{id}")]
+		// GET: api/Employees/5
+		[HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetEmployee(int id)
         {
             var employee = await _context.Employees.FindAsync(id);
@@ -44,7 +52,7 @@ namespace API.Controllers
         // PUT: api/Employees/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(int id, Employee employee)
+        public async Task<IActionResult> PutEmployee(int id, EmployeeDTO employee)
         {
             if (id != employee.EmployeeId)
             {
