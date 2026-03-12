@@ -5,6 +5,7 @@
 <button id="deleteEmployee" class="btn btn-danger">deleteEmployee</button>
 
 @section Scripts{
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.11.0/axios.min.js" integrity="sha512-h9644v03pHqrIHThkvXhB2PJ8zf5E9IyVnrSfZg8Yj8k4RsO4zldcQc4Bi9iVLUCCsqNY0b4WXVV4UB+wbWENA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script>
 		var baseAddress="https://localhost:7202";//傳入api路徑
 		// var baseAddress="https:XXX";//staging
@@ -27,31 +28,55 @@
 			}
 		});
 
+		// $('#postEmployee').on('click',async()=>{
+		// 	alert('postEmployee');
+		// 	var emp ={
+		// 		EmployeeId:0,
+		// 		FirstName:"Fuen",
+		// 		LastName:"2026",
+		// 		Title:"Student"
+		// 	}
+		// 	try{
+		// 		var reponse = await fetch(`${baseAddress}/api/Employees`,{
+		// 			method:"post",
+		// 			body:JSON.stringify(emp),
+		// 			headers:{
+		// 				"content-type":"Application/json"
+		// 			}
+		// 		});
+		// 		if(reponse.ok){
+		// 			var data = await reponse.json();
+		// 			alert(JSON.stringify(data));
+		// 			if(data.ok){
+		// 				alert("新增員工紀錄成功");
+		// 			}else{
+		// 				alert("新增員工紀錄失敗");
+		// 			}
+		// 		}
+		// 	}catch(err){
+		// 		alert(err.message);
+		// 	}
+		// });
+
 		$('#postEmployee').on('click',async()=>{
 			// alert('postEmployee');
 			var emp ={
 				EmployeeId:0,
-				FirstName:"Fuen",
-				LastName:"2026",
+				FirstName:"Axios",
+				LastName:"POST",
 				Title:"Student"
 			}
 			try{
-				var reponse = await fetch(`${baseAddress}/api/Employees`,{
-					method:"post",
-					body:JSON.stringify(emp),
+				var response = await axios.post(`${baseAddress}/api/Employees`,JSON.stringify(emp),{
 					headers:{
-						"content-type":"Application/json"
+						"content-type":"application/json"
 					}
 				});
-				if(reponse.ok){
-					var data = await reponse.json();
-					// alert(JSON.stringify(data));
-					if(data.ok){
-						alert("新增員工紀錄成功");
-					}else{
-						alert("新增員工紀錄失敗");
-					}
-				}
+				if(response.data.ok){
+					alert("新增員工紀錄成功");
+				}else{
+					alert("新增員工紀錄失敗");
+				};
 			}catch(err){
 				alert(err.message);
 			}
