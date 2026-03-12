@@ -1,1 +1,111 @@
-﻿<button>GetEmployees</button>
+﻿<button id="getEmployeeById" class="btn btn-primary">getEmployeeById</button>
+<input id="employeeId" />
+<button id="postEmployee" class="btn btn-primary">PostEmployee</button>
+<button id="putEmployee" class="btn btn-warning">PutEmployee</button>
+<button id="deleteEmployee" class="btn btn-danger">deleteEmployee</button>
+
+@section Scripts{
+	<script>
+		var baseAddress="https://localhost:7202";//傳入api路徑
+		// var baseAddress="https:XXX";//staging
+		// var baseAddress="https:XXX";//Production
+		// var baseAddress="https:XXX";//Cloud
+
+		$('#getEmployeeById').on('click',async()=>{
+			// alert("getEmployById");
+			try{
+				var employeeId = $("#employeeId").val();
+				var response = await fetch(`${baseAddress}/api/Employees/${employeeId}`,{
+					method:"GET"
+				});
+				if(response.ok){
+					var data = await response.json();
+					alert(JSON.stringify(data));
+				}
+			}catch(err){
+				alert(err.message);
+			}
+		});
+
+		$('#postEmployee').on('click',async()=>{
+			// alert('postEmployee');
+			var emp ={
+				EmployeeId:0,
+				FirstName:"Fuen",
+				LastName:"2026",
+				Title:"Student"
+			}
+			try{
+				var reponse = await fetch(`${baseAddress}/api/Employees`,{
+					method:"post",
+					body:JSON.stringify(emp),
+					headers:{
+						"content-type":"Application/json"
+					}
+				});
+				if(reponse.ok){
+					var data = await reponse.json();
+					// alert(JSON.stringify(data));
+					if(data.ok){
+						alert("新增員工紀錄成功");
+					}else{
+						alert("新增員工紀錄失敗");
+					}
+				}
+			}catch(err){
+				alert(err.message);
+			}
+		});
+
+		$('#putEmployee').on('click',async()=>{
+			// alert('putEmployee');
+			var employeeId = $("#employeeId").val();
+			var emp ={
+				EmployeeId:employeeId,
+				FirstName:"Fuen",
+				LastName:"2026",
+				Title:"CEO"
+			};
+			try{
+				var response = await fetch(`${baseAddress}/api/Employees/${employeeId}`,{
+					method:'Put',
+					body:JSON.stringify(emp),
+					headers:{
+						"content-type":"Application/json"
+					}
+				});
+				if(response.ok){
+					var data = await response.json();
+					// alert(Json.stringfy(data));
+					if(data.ok){
+						alert("修改員工紀錄成功");
+					}else{
+						alert("修改員工紀錄失敗");
+					}
+				}
+			}catch(err){
+				alert(err.message);
+			}
+		});
+
+		$('#deleteEmployee').on('click',async()=>{
+			// alert('deleteEmployee');
+			try{
+				var response = await fetch(`${baseAddress}/api/Employees/${$('#employeeId').val()}`,{
+					method:"delete"
+				});
+				if(response.ok){
+					var data = await response.json();
+					if(data.ok){
+						alert("刪除員工紀錄成功");
+					}else{
+						alert("刪除員工紀錄失敗");
+					}
+				}
+			}catch(err)
+			{
+				alert(err.message);
+			}
+		});
+	</script>
+}
